@@ -1,8 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "APR.h"
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+int main() {
+	TrieNode* root = createTrie();
+	printf("Root node address: %p\n", root);
+	
+	char transaction[] = "A B C D A B A C D D B C D A D A A B A C D";
+	readTransaction(root, transaction);
+	printTrie(root, 0);
 
-int main(int argc, char *argv[]) {
 	return 0;
 }
