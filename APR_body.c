@@ -32,7 +32,7 @@ void addChildNode(struct TrieNode *parent, struct TrieNode *child) {
 }
 
 void readTransaction(struct TrieNode *root, char *transaction) {
-    char *token = strtok(transaction, " ");
+    char *token = strtok(transaction, " \n");
 
     while (token != NULL) {
   		struct TrieNode *current = root;
@@ -43,7 +43,34 @@ void readTransaction(struct TrieNode *root, char *transaction) {
         }
         child->support++;
         current = child;
-        token = strtok(NULL, " ");
+        token = strtok(NULL, " \n");
+    }
+}
+
+void generateFrequentItemsetsFromNode(struct TrieNode* current, struct TrieNode* node, int minSupport) {
+    for (struct TrieNode* child1 = node->sibling; child1 != NULL; child1 = child1->sibling) {
+        if (child1->support >= minSupport) {
+            char* itemset = (char*) malloc(1024 * sizeof(char));
+            itemset[0] = '\0';
+            strcat(itemset, current->item);
+            strcat(itemset, " ");
+            strcat(itemset, child1->item);
+            printf("{ %s } : %d\n", itemset, child1->support);
+            generateFrequentItemsetsFromNode(current, child1, minSupport);
+            free(itemset);
+        }
+    }
+    if (current->child != NULL) {
+        generateFrequentItemsetsFromNode(current->child, current->child, minSupport);
+    }
+}
+
+void generateFrequentItemsets(struct TrieNode* root, int minSupport) {
+    for (struct TrieNode* child = root->child; child != NULL; child = child->sibling) {
+        if (child->support >= minSupport) {
+            printf("{ %s } : %d\n", child->item, child->support);
+            generateFrequentItemsetsFromNode(child, child, minSupport);
+        }
     }
 }
 
