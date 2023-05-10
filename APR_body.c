@@ -125,6 +125,45 @@ int idItem(char* item){
 	return id;
 }
 
+
+char* itemName(int id){
+	
+	char* name;
+	
+	if(id==1){
+	
+		name="Susu";
+	
+	} 
+	
+	else if(id==2){
+	
+		name="Gula";
+	
+	}
+	
+	else if(id==3){
+	
+		name="Kopi";
+	
+	}
+	
+	else if(id==4){
+	
+		name="Roti";
+	
+	}
+	
+	else if(id==5){
+	
+		name="Teh";
+	
+	}
+	
+	
+	return name;
+}
+
 nodeTrie *make_node(int id,int idIndex){
 	
 	nodeTrie* PNew;
@@ -402,10 +441,10 @@ void printMinimum(nodeTrie* root, int total ,int minimum){
 		a=find_index(root, i);
 		if(a->support>=minimum){
 			
-			printf("\n%d",a->info);
+			printf("\n%s",itemName(a->info));
 			b=a->pr;
 			while(b->info!=0){
-				printf("%d",b->info);
+				printf(" %s",itemName(b->info));
 				b=b->pr;
 				
 				

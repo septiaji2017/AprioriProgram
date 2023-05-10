@@ -2,3 +2,5 @@
 coverage/
 **/*.o
 **/*.win
+**/*.gch
+**/*.exe
