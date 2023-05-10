@@ -84,3 +84,329 @@ void printTrie(struct TrieNode *node, int level) {
     printTrie(node->child, level + 1);
     printTrie(node->sibling, level);
 }
+
+
+
+int idItem(char* item){
+	
+	int id;
+	
+	if(strcmp(item,"Susu")==0){
+	
+		id=1;
+	
+	}
+	
+	else if(strcmp(item,"Gula")==0){
+	
+		id=2;
+	
+	}
+	
+	else if(strcmp(item,"Kopi")==0){
+	
+		id=3;
+	
+	}
+	
+	else if(strcmp(item,"Roti")==0){
+	
+		id=4;
+	
+	}
+	
+	else if(strcmp(item,"Teh")==0){
+	
+		id=5;
+	
+	}
+	
+	
+	return id;
+}
+
+address make_node(int id,int idIndex){
+	
+	address PNew;
+	PNew = (address) malloc(sizeof (nodeTrie));
+	PNew->fs=NULL;
+	PNew->nb=NULL;
+	PNew->pr=NULL;
+	//PNew->info = (int) malloc(sizeof(int));
+//	strcpy(PNew->info, Item);
+	PNew->info=id;
+	//PNew->info = (int) malloc(sizeof(int));
+//	strcpy(PNew->info, Item);
+	PNew->index=idIndex;
+	PNew->support=0;
+//	printf("\nbuat node %d dengan index %d",PNew->info,PNew->index);
+	return PNew;
+}
+
+address find_index(address root, int index) {
+    if (root == NULL) {
+        return NULL;
+    } else if (root->index == index) {
+        return root;
+    } else {
+        // Traversal ke anak pertama
+        address found = find_index(root->fs, index);
+        if (found != NULL) {
+            return found;
+        }
+
+        // Traversal ke sibling selanjutnya
+        found = find_index(root->nb, index);
+        if (found != NULL) {
+            return found;
+        }
+
+        return NULL; // Jika tidak ditemukan pada sub-tree ini dan sub-tree berikutnya
+    }
+}
+
+
+int totalItem(char* arr[]){
+	
+	int pjg=0,i=0;
+	while(arr[i]!=NULL){
+		pjg++;
+		i++;	
+	}
+	return pjg;
+	
+}
+
+address creat_trie(char* arr[]){
+	
+	address root=NULL,a,b,c,d,e;
+	int Total;
+	
+	
+	Total=totalItem(arr);
+	int Tnode=pow(2,Total)-1;
+	
+	int i=0,j=0,pjg=0;
+	
+
+	//printf("%d dan %d\n",Tnode,pjg);
+	i=1;
+	root=make_node(0,0);
+	while(i<=Total){
+		
+		a=make_node(idItem(arr[j]),i);
+		//printf("\ni = %d\n",i);
+		a->pr=root;
+		
+		if(root->fs==NULL){
+			
+			root->fs=a;
+			
+		}
+		
+		else{
+			b=root->fs;
+			while(b->nb!=NULL){
+				
+				b=b->nb;
+				
+			}
+			b->nb=a;
+			
+		}
+		
+		j++;
+		i++;
+
+	}
+
+	a=root->fs;
+	b=a;
+	c=b;
+//	printf("\nindex b %d",b->index);
+	while(i<=Tnode){
+		
+		
+		if(c != NULL && c->nb != NULL){
+			c=c->nb;
+			d=make_node(c->info,i);
+			//printf("\ni = %d\n",i);
+			d->pr=b;
+			if(b->fs==NULL){
+			
+				b->fs=d;
+			
+			}
+			
+			else{
+				e=b->fs;
+				while(e->nb!=NULL){
+					
+					e=e->nb;
+					
+				}
+				e->nb=d;
+				
+			}
+			i++;
+			
+		}
+		else{
+//			printf("tes");
+			b=find_index(root,b->index+1);
+			c=b;
+		}
+
+	}
+	
+	
+	return root;
+	
+}
+
+	
+
+void sortTransaksi(char** transaksi) {
+    int i, j;
+    char* temp;
+    int n;
+	
+	
+	n=totalItem(transaksi);
+
+    for (i = 0; i < n-1; i++) {
+        for (j = 0; j < n-i-1; j++) {
+            int id1 = idItem(transaksi[j]);
+            int id2 = idItem(transaksi[j+1]);
+            if (id1 > id2) {
+                // swap the items
+                temp = transaksi[j];
+                transaksi[j] = transaksi[j+1];
+                transaksi[j+1] = temp;
+            }
+        }
+    }
+}
+
+
+void print_trie(address node, int level) {
+    if (node == NULL) {
+        return;
+    }
+    int i;
+    // Print node's info, support, and index
+    for (i = 0; i < level; i++) {
+        printf("  ");
+    }
+    printf("%d [Support: %d, Index: %d]\n", node->info, node->support, node->index);
+
+    // Print node's children
+    if (node->fs != NULL) {
+        print_trie(node->fs, level + 1);
+    }
+
+    // Print node's siblings
+    if (node->nb != NULL) {
+        print_trie(node->nb, level);
+    }
+}
+
+
+//void printTrie(address node, int level) {
+//    if (node == NULL) {
+//        return;
+//    }
+//	int i;
+//    // Print node's info and index
+//    for ( i = 0; i < level; i++) {
+//        printf("  ");
+//    }
+//    printf("%d\n", node->info);
+//
+//    // Print node's children
+//    if (node->fs != NULL) {
+//        printTrie(node->fs, level + 1);
+//    }
+//
+//    // Print node's siblings
+//    if (node->nb != NULL) {
+//        printTrie(node->nb, level);
+//    }
+//}
+
+int find_level(address root, address node) {
+    if (node == NULL) {
+        return -1;
+    }
+    int level = 0;
+    while (node != root) {
+        node = node->pr;
+        level++;
+    }
+    return level;
+}
+
+
+void updateTrie(address root, address trans, int Total, int Total2){
+	
+	address a,b,c;
+	int i=1,j=1;
+	int Totalnode2=pow(2,Total2)-1;
+	int Totalnode=pow(2,Total)-1;
+	bool found=false;
+	while(i<=Totalnode2){
+		
+		a=find_index(trans, i);
+		while(found!=true){
+			
+			b=find_index(root, j);
+			if(b->pr->info==a->pr->info&&b->info==a->info&&find_level(root, b)==find_level(trans, a)){
+				printf("\ntes1");
+				found = true;
+				b->support++;
+				
+			}
+			
+			else{
+				printf("\ntes2");
+				j++;
+				b=find_index(root, j);
+				
+			}
+			
+		}
+		found=false;
+		i++;
+	}
+	
+	
+}
+
+void printMinimum(address root, int total ,int minimum){
+	
+	address a,b,c;
+	int i=1;
+	int totalNode=pow(2,total)-1;
+	
+	
+	while(i<=totalNode){
+		a=find_index(root, i);
+		if(a->support>=minimum){
+			
+			printf("\n%d",a->info);
+			b=a->pr;
+			while(b->info!=0){
+				printf("%d",b->info);
+				b=b->pr;
+				
+				
+			}
+			printf("      support : %d",a->support);
+		}
+		
+		i++;
+	}
+	
+	
+	
+}
