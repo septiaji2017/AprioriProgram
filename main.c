@@ -12,8 +12,8 @@
 // }
 
 int main(){
-	
-	address root=NULL,root2=NULL;
+	nodeTrie* root=NULL;
+	nodeTrie* root2=NULL;
 	char* item[6]={"Susu","Gula","Kopi","Roti",NULL};
 	char* transaksi[10][10]={{"Susu","Roti",NULL},{"Susu", "Gula", "Roti", NULL},{"Kopi", "Gula", "Susu", NULL},{"Kopi", "Gula", "Susu", NULL}};
 	int total=4,i=0, minimumSupport=2;

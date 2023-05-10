@@ -125,10 +125,10 @@ int idItem(char* item){
 	return id;
 }
 
-address make_node(int id,int idIndex){
+nodeTrie *make_node(int id,int idIndex){
 	
-	address PNew;
-	PNew = (address) malloc(sizeof (nodeTrie));
+	nodeTrie* PNew;
+	PNew = (nodeTrie*) malloc(sizeof(nodeTrie));
 	PNew->fs=NULL;
 	PNew->nb=NULL;
 	PNew->pr=NULL;
@@ -143,14 +143,14 @@ address make_node(int id,int idIndex){
 	return PNew;
 }
 
-address find_index(address root, int index) {
+nodeTrie *find_index(nodeTrie *root, int index) {
     if (root == NULL) {
         return NULL;
     } else if (root->index == index) {
         return root;
     } else {
         // Traversal ke anak pertama
-        address found = find_index(root->fs, index);
+        nodeTrie* found = find_index(root->fs, index);
         if (found != NULL) {
             return found;
         }
@@ -177,9 +177,14 @@ int totalItem(char* arr[]){
 	
 }
 
-address creat_trie(char* arr[]){
+nodeTrie *creat_trie(char* arr[]){
 	
-	address root=NULL,a,b,c,d,e;
+	nodeTrie* root=NULL;
+	nodeTrie* a;
+	nodeTrie* b;
+	nodeTrie* c;
+	nodeTrie* d;
+	nodeTrie* e;
 	int Total;
 	
 	
@@ -289,7 +294,7 @@ void sortTransaksi(char** transaksi) {
 }
 
 
-void print_trie(address node, int level) {
+void print_trie(nodeTrie *node, int level) {
     if (node == NULL) {
         return;
     }
@@ -312,7 +317,7 @@ void print_trie(address node, int level) {
 }
 
 
-//void printTrie(address node, int level) {
+//void printTrie(nodeTrie node, int level) {
 //    if (node == NULL) {
 //        return;
 //    }
@@ -334,7 +339,7 @@ void print_trie(address node, int level) {
 //    }
 //}
 
-int find_level(address root, address node) {
+int find_level(nodeTrie *root, nodeTrie *node) {
     if (node == NULL) {
         return -1;
     }
@@ -347,9 +352,11 @@ int find_level(address root, address node) {
 }
 
 
-void updateTrie(address root, address trans, int Total, int Total2){
+void updateTrie(nodeTrie *root, nodeTrie *trans, int Total, int Total2){
 	
-	address a,b,c;
+	nodeTrie* a;
+	nodeTrie* b;
+	nodeTrie* c;
 	int i=1,j=1;
 	int Totalnode2=pow(2,Total2)-1;
 	int Totalnode=pow(2,Total)-1;
@@ -382,9 +389,11 @@ void updateTrie(address root, address trans, int Total, int Total2){
 	
 }
 
-void printMinimum(address root, int total ,int minimum){
+void printMinimum(nodeTrie* root, int total ,int minimum){
 	
-	address a,b,c;
+	nodeTrie* a;
+	nodeTrie* b;
+	nodeTrie* c;
 	int i=1;
 	int totalNode=pow(2,total)-1;
 	

@@ -32,37 +32,35 @@
 
 // void generateFrequentItemsets(struct TrieNode* root, int minSupport);
 
-typedef struct node *address;
-typedef struct node{
-	
+// typedef struct node *nodeTrie;
+typedef struct nodeTrie {
 	int info;
 	int index;
 	int support;
-	address fs;
-	address nb;
-	address pr;
-	
-}nodeTrie;
+	struct nodeTrie* fs;
+	struct nodeTrie* nb;
+	struct nodeTrie* pr;
+} nodeTrie;
 
 int idItem(char* item);
 
-address make_node(int id,int idIndex);
+nodeTrie *make_node(int id,int idIndex);
 
-address find_index(address root, int index);
+nodeTrie *find_index(nodeTrie *root, int index);
 
 int totalItem(char* arr[]);
 
-address creat_trie(char* arr[]);
+nodeTrie *creat_trie(char* arr[]);
 
 void sortTransaksi(char** transaksi);
 
-void print_trie(address node, int level);
+void print_trie(nodeTrie *node, int level);
 
-int find_level(address root, address node);
+int find_level(nodeTrie *root, nodeTrie *node);
 
-void updateTrie(address root, address trans, int Total, int Total2);
+void updateTrie(nodeTrie *root, nodeTrie *trans, int Total, int Total2);
 
-void printMinimum(address root, int total ,int minimum);
+void printMinimum(nodeTrie *root, int total, int minimum);
 
 
 #endif
