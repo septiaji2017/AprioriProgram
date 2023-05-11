@@ -164,7 +164,7 @@ char* itemName(int id){
 	return name;
 }
 
-nodeTrie *make_node(int id,int idIndex){
+nodeTrie *make_node(int id,int idIndex, int lvl){
 	
 	nodeTrie* PNew;
 	PNew = (nodeTrie*) malloc(sizeof(nodeTrie));
@@ -176,6 +176,7 @@ nodeTrie *make_node(int id,int idIndex){
 	PNew->info=id;
 	//PNew->info = (int) malloc(sizeof(int));
 //	strcpy(PNew->info, Item);
+	PNew->level=lvl;
 	PNew->index=idIndex;
 	PNew->support=0;
 //	printf("\nbuat node %d dengan index %d",PNew->info,PNew->index);
@@ -183,6 +184,7 @@ nodeTrie *make_node(int id,int idIndex){
 }
 
 nodeTrie *find_index(nodeTrie *root, int index) {
+	//digunakan untuk menemukan node dengan indeks tertentu
     if (root == NULL) {
         return NULL;
     } else if (root->index == index) {
@@ -235,10 +237,10 @@ nodeTrie *creat_trie(char* arr[]){
 
 	//printf("%d dan %d\n",Tnode,pjg);
 	i=1;
-	root=make_node(0,0);
+	root=make_node(0,0,0);
 	while(i<=Total){
 		
-		a=make_node(idItem(arr[j]),i);
+		a=make_node(idItem(arr[j]),i,1);
 		//printf("\ni = %d\n",i);
 		a->pr=root;
 		
@@ -273,7 +275,7 @@ nodeTrie *creat_trie(char* arr[]){
 		
 		if(c != NULL && c->nb != NULL){
 			c=c->nb;
-			d=make_node(c->info,i);
+			d=make_node(c->info,i,c->level+1);
 			//printf("\ni = %d\n",i);
 			d->pr=b;
 			if(b->fs==NULL){
@@ -385,7 +387,7 @@ void updateTrie(nodeTrie *root, nodeTrie *trans, int Total, int Total2){
 		while(found!=true){
 			
 			b=find_index(root, j);
-			if(b->pr->info==a->pr->info&&b->info==a->info&&find_level(root, b)==find_level(trans, a)){
+			if(b->pr->info==a->pr->info&&b->info==a->info&&b->level==a->level){
 			//	printf("\ntes1");
 				found = true;
 				b->support++;
@@ -455,6 +457,7 @@ void printMinimum(nodeTrie* root, int total ,int minimum, char* filename){
 				
 			}
 			printf("      support : %d",a->support);
+			printf("      level : %d",a->level);
 		}
 		
 		i++;
@@ -475,7 +478,7 @@ void assosiationRules(nodeTrie* root, int confidence, int total, int minimum){
 	while(i<=totalNode){
 		
 		a=find_index(root, i);
-		if(a->support>=minimum&&find_level(root, a)>1){
+		if(a->support>=minimum&&a->level>1){
 			
 			c=a;
 			while(c->info!=0){

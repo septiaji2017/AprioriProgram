@@ -1,0 +1,12 @@
+Susu      support : 6
+Gula      support : 8
+Kopi      support : 4
+Roti      support : 4
+Teh      support : 5
+Gula Susu      support : 4
+Kopi Susu      support : 3
+Roti Susu      support : 3
+Kopi Gula      support : 3
+Roti Gula      support : 2
+Teh Gula      support : 5
+Kopi Gula Susu      support : 2

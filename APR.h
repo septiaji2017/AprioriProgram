@@ -37,6 +37,7 @@ typedef struct nodeTrie {
 	int info;
 	int index;
 	int support;
+	int level;
 	struct nodeTrie* fs;
 	struct nodeTrie* nb;
 	struct nodeTrie* pr;
@@ -44,7 +45,7 @@ typedef struct nodeTrie {
 
 int idItem(char* item);
 
-nodeTrie *make_node(int id,int idIndex);
+nodeTrie *make_node(int id,int idIndex, int lvl);
 
 nodeTrie *find_index(nodeTrie *root, int index);
 
