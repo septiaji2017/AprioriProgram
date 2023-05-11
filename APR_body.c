@@ -356,27 +356,6 @@ void print_trie(nodeTrie *node, int level) {
 }
 
 
-//void printTrie(nodeTrie node, int level) {
-//    if (node == NULL) {
-//        return;
-//    }
-//	int i;
-//    // Print node's info and index
-//    for ( i = 0; i < level; i++) {
-//        printf("  ");
-//    }
-//    printf("%d\n", node->info);
-//
-//    // Print node's children
-//    if (node->fs != NULL) {
-//        printTrie(node->fs, level + 1);
-//    }
-//
-//    // Print node's siblings
-//    if (node->nb != NULL) {
-//        printTrie(node->nb, level);
-//    }
-//}
 
 int find_level(nodeTrie *root, nodeTrie *node) {
     if (node == NULL) {
@@ -407,14 +386,14 @@ void updateTrie(nodeTrie *root, nodeTrie *trans, int Total, int Total2){
 			
 			b=find_index(root, j);
 			if(b->pr->info==a->pr->info&&b->info==a->info&&find_level(root, b)==find_level(trans, a)){
-				printf("\ntes1");
+			//	printf("\ntes1");
 				found = true;
 				b->support++;
 				
 			}
 			
 			else{
-				printf("\ntes2");
+			//	printf("\ntes2");
 				j++;
 				b=find_index(root, j);
 				
@@ -428,7 +407,9 @@ void updateTrie(nodeTrie *root, nodeTrie *trans, int Total, int Total2){
 	
 }
 
-void printMinimum(nodeTrie* root, int total ,int minimum){
+
+
+void printMinimum(nodeTrie* root, int total ,int minimum, char* filename){
 	
 	nodeTrie* a;
 	nodeTrie* b;
@@ -436,7 +417,31 @@ void printMinimum(nodeTrie* root, int total ,int minimum){
 	int i=1;
 	int totalNode=pow(2,total)-1;
 	
+	FILE* fp = fopen(filename, "w");
+	if (fp == NULL) {
+		printf("File tidak dapat dibuat.\n");
+		return;
+	}
 	
+	while(i<=totalNode){
+		a=find_index(root, i);
+		if(a->support>=minimum){
+			
+			fprintf(fp, "%s", itemName(a->info));
+			b=a->pr;
+			while(b->info!=0){
+				fprintf(fp, " %s",itemName(b->info));
+				b=b->pr;
+			}
+			fprintf(fp, "      support : %d\n",a->support);
+		}
+		
+		i++;
+	}
+	
+	fclose(fp); 
+	
+	i=1;
 	while(i<=totalNode){
 		a=find_index(root, i);
 		if(a->support>=minimum){
@@ -454,7 +459,57 @@ void printMinimum(nodeTrie* root, int total ,int minimum){
 		
 		i++;
 	}
+}
+
+
+
+void assosiationRules(nodeTrie* root, int confidence, int total, int minimum){
 	
+	nodeTrie* a;
+	nodeTrie* b;
+	nodeTrie* c;
+	nodeTrie* d;
+	int i=1, hasil;
+	int totalNode=pow(2,total)-1;
 	
-	
+	while(i<=totalNode){
+		
+		a=find_index(root, i);
+		if(a->support>=minimum&&find_level(root, a)>1){
+			
+			c=a;
+			while(c->info!=0){
+				b=a;
+				
+				d=root->fs;
+				printf("\nJika membeli");
+				while(b->info!=0){
+					if(b!=c){
+						printf(" %s",itemName(b->info));
+					}
+					
+					b=b->pr;
+				}
+				printf(" Maka membeli %s",itemName(c->info));
+				
+				while(d->info!=c->info){
+					d=d->nb;	
+				}
+				printf("\n support a : %d", a->support);
+				printf("\n support d : %d", d->support);
+				hasil=(a->support/d->support)*100;
+				printf("\n confindence : %d/%d", a->support,d->support);
+				
+				
+				c=c->pr;
+				
+			}
+
+			
+		}
+		
+		i++;
+
+	}
+
 }

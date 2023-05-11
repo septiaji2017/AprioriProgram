@@ -60,7 +60,9 @@ int find_level(nodeTrie *root, nodeTrie *node);
 
 void updateTrie(nodeTrie *root, nodeTrie *trans, int Total, int Total2);
 
-void printMinimum(nodeTrie *root, int total, int minimum);
+void printMinimum(nodeTrie *root, int total, int minimum, char* filename);
+
+void assosiationRules(nodeTrie* root, int confidence, int total, int minimum);
 
 
 #endif
