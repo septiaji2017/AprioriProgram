@@ -126,7 +126,7 @@ int main(){
 	//assosiationRules(root, minimumConfidence, total, minimumSupport);
 	//removeNode(root,minimumSupport,total);
     //	printMinimum(root, total, minimumSupport, "outputMinimum.txt");
-//	print_trie(root, 0);
+
 	
     for (int i = 0; i < itemQty; i++) {
         printf("%s ", item[i]);
