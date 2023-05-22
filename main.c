@@ -29,25 +29,28 @@ void extractItemsHelper(char* trscToken, const char* itemDelim, char*** items, i
         if (!isItemInArray(*items, *itemQty, itemToken)) {
             // Reallocate memory for the items array to accommodate the new item
             *items = (char**)realloc(*items, (*itemQty + 1) * sizeof(char*));
+//            memset((*items)[*itemQty],'\0',1);
             (*items)[*itemQty] = strdup(itemToken);
             (*itemQty)++;
         }
 
         itemToken = strtok(NULL, itemDelim); // Move to the next item
     }
+    printf("\nExtractDone\n");
 
     // Recursively process the next trsc
-    extractItemsHelper(strtok(NULL, "\n"), itemDelim, items, itemQty);
+    extractItemsHelper(strtok(NULL, "\0"), itemDelim, items, itemQty);
 }
 
 char** extractItems(const char* transactions, int* itemQty) {
-    const char* itemDelim = ", ";
-    char** items = NULL;
+    const char* itemDelim = ", \n";
+//    char** items = (char**)malloc(sizeof(char*));
+	char** items = NULL;
     *itemQty = 0;
 
     // Tokenize the transactions string to extract individual transactions
     char* trscCopy = strdup(transactions);
-    char* trscToken = strtok(trscCopy, "\n");
+    char* trscToken = strtok(trscCopy, "\0");
 
     // Process transactions recursively
     extractItemsHelper(trscToken, itemDelim, &items, itemQty);
@@ -89,39 +92,46 @@ int main(){
 	int itemQty = 0, j=0;
 	char** item = extractItems(transactions, &itemQty);
 	
-//	root=creat_trie(item);
+	root=creat_trie(item);
+	
+	printf("\n\nTest: %c\n", *(transactions+2));
+	printf("\n\nTest: %d\n", strlen(transactions));
 
-//    while(transaksi[j][1]!=NULL){    	
-//    	j++;
-//	}
-//	i=0;
+    while(i<strlen(transactions)){
+    	printf("\nString belum habis.");
+    	if(transactions[i] == '\n'){
+    		j+=1;
+    		printf("\nThis is end of transactions");
+		}
+		i++;
+	}
+	j++;
+//	
+	printf("\nj = %d\n", j);
+	
+	i = 0;
 //    
 //    while(i<j){
-//    	sortTransaksi(transaksi[i]);
+//    	sortTransaksi(transactions);
 //    	i++;
 //	}
 //	
 //	i=0;
 //	while(i<j){
-//		totalPerTransaksi[i]=totalItem(transaksi[i]);	
+//		totalPerTransaksi[i]=totalItem(transactions);	
 //		i++;
 //	}
-//    
-//    
-//
-//    
+////    
+////    
+////
+////    
 //    for(i=0;i<j;i++){
-//    	
-//    	root2=creat_trie(transaksi[i]);
-//	
-//
+//    	root2=creat_trie(transactions[i]);
 //		updateTrie(root, root2, total ,totalPerTransaksi[i]);
-//		    	
-//    	
 //	}
-//
-//
-//	printMinimum(root, total, minimumSupport, "outputAll.txt");
+////
+////
+//	printMinimum(root, total, minimumSupport, "output.txt");
 //	
 	//assosiationRules(root, minimumConfidence, total, minimumSupport);
 	//removeNode(root,minimumSupport,total);

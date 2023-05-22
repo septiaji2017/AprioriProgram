@@ -29,7 +29,7 @@ int totalItem(char* arr[]);
 
 nodeTrie *creat_trie(char* arr[]);
 
-void sortTransaksi(char** transaksi);
+void sortTransaksi(char* transaksi);
 
 void print_trie(nodeTrie *node, int level);
 

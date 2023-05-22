@@ -137,13 +137,11 @@ nodeTrie *find_index(nodeTrie *root, int index) {
 
 int totalItem(char* arr[]){
 	
-	int pjg=0,i=0;
-	while(arr[i]!=NULL){
-		pjg++;
-		i++;	
+	int i=0;
+	while(arr[0][i]>=33 && arr[0][i]<=122){
+		i++;
 	}
-	return pjg;
-	
+	return ++i;
 }
 
 nodeTrie *creat_trie(char* arr[]){
@@ -154,38 +152,42 @@ nodeTrie *creat_trie(char* arr[]){
 	nodeTrie* c;
 	nodeTrie* d;
 	nodeTrie* e;
-	int Total;
-	
+	int Total = 0;
+	int Tnode = 0;
 	
 	Total=totalItem(arr);
-	int Tnode=pow(2,Total)-1;
+	printf("\nTotal: %d", Total);
+	Tnode=pow(2,Total)-1;
+	printf("\nTnode: %d", Tnode);
 	
 	int i=0,j=0,pjg=0;
 	
 
-	//printf("%d dan %d\n",Tnode,pjg);
+	printf("\n%d dan %d\n",Tnode,pjg);
 	i=1;
 	root=make_node(0,0,0);
 	while(i<=Total){
 		
 		a=make_node(idItem(arr[j]),i,1);
-		//printf("\ni = %d\n",i);
+		printf("\ni = %d",i);
 		a->pr=root;
 		
 		if(root->fs==NULL){
 			
 			root->fs=a;
-			
+			printf("\nRoot->FS = a = %p", a->pr);
 		}
 		
 		else{
 			b=root->fs;
+			printf("\nb = Root->FS = %p", b);
 			while(b->nb!=NULL){
 				
 				b=b->nb;
-				
+				printf("\nb = b->NB = %p", b);
 			}
 			b->nb=a;
+			printf("\nb->NB = a = %p", b->nb);
 			
 		}
 		
@@ -193,42 +195,48 @@ nodeTrie *creat_trie(char* arr[]){
 		i++;
 
 	}
-
+	
+	printf("\nroot->FS = %p", root->fs);
 	a=root->fs;
+	printf("\na = root->FS = %p", a);
 	b=a;
+	printf("\nb = a = %p", b);
 	c=b;
-//	printf("\nindex b %d",b->index);
+	printf("\nc = a = %p", b->nb);
+	printf("\nindex b %d",b->index);
 	while(i<=Tnode){
 		
 		
 		if(c != NULL && c->nb != NULL){
 			c=c->nb;
+			printf("\nc = c->NB = %p", c);
 			d=make_node(c->info,i,c->level+1);
-			//printf("\ni = %d\n",i);
+			printf("\ni = %d\n",i);
 			d->pr=b;
+			printf("\nd->PR = b = %p", d->pr);
 			if(b->fs==NULL){
-			
 				b->fs=d;
-			
+				printf("\nb->FS = d = %p", b->fs);
 			}
-			
 			else{
 				e=b->fs;
+				printf("\ne = b->FS = %p", e);
 				while(e->nb!=NULL){
 					
 					e=e->nb;
+					printf("\ne = e->NB = %p", e);
 					
 				}
 				e->nb=d;
-				
+				printf("\ne->NB = d = %p", e->nb);
 			}
 			i++;
 			
 		}
 		else{
-//			printf("tes");
 			b=find_index(root,b->index+1);
 			c=b;
+			printf("\nc = b = %p", c);
 		}
 
 	}
@@ -240,26 +248,37 @@ nodeTrie *creat_trie(char* arr[]){
 
 	
 
-void sortTransaksi(char** transaksi) {
-    int i, j;
-    char* temp;
+void sortTransaksi(char* transaksi) {
+    int i = 0, j;
+    char* prevTemp, nextTemp; //temp
     int n;
-	
 	
 	n=totalItem(transaksi);
 
-    for (i = 0; i < n-1; i++) {
-        for (j = 0; j < n-i-1; j++) {
-            int id1 = idItem(transaksi[j]);
-            int id2 = idItem(transaksi[j+1]);
-            if (id1 > id2) {
-                // swap the items
-                temp = transaksi[j];
-                transaksi[j] = transaksi[j+1];
-                transaksi[j+1] = temp;
-            }
-        }
-    }
+//    for (i = 0; i < n-1; i++) {
+//        for (j = 0; j < n-i-1; j++) {
+//            int id1 = idItem(transaksi[j]);
+//            int id2 = idItem(transaksi[j+1]);
+//            if (id1 > id2) {
+//                // swap the items
+//                temp = transaksi[j];
+//                transaksi[j] = transaksi[j+1];
+//                transaksi[j+1] = temp;
+//            }
+//        }
+//    }
+
+//    while(i<strlen(transaksi)){
+//    	printf("\nString belum habis.");
+//    	if(transaksi[i] != '\n'){
+//    		strcat(prevTemp, transactions[i]);
+//    		printf("\nThis is end of transactions");
+//		}
+//		else{
+//			
+//		}
+//		i++;
+//	}
 }
 
 
