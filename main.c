@@ -121,10 +121,11 @@ int main(){
 //	}
 //
 //
-//	printMinimum(root, total, minimumSupport, "output.txt");
+//	printMinimum(root, total, minimumSupport, "outputAll.txt");
 //	
 	//assosiationRules(root, minimumConfidence, total, minimumSupport);
-	
+	//removeNode(root,minimumSupport,total);
+    //	printMinimum(root, total, minimumSupport, "outputMinimum.txt");
 //	print_trie(root, 0);
 	
     for (int i = 0; i < itemQty; i++) {

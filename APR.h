@@ -41,5 +41,6 @@ void printMinimum(nodeTrie *root, int total, int minimum, char* filename);
 
 void assosiationRules(nodeTrie* root, int confidence, int total, int minimum);
 
+void removeNode(nodeTrie* root, int minimum, int total);
 
 #endif

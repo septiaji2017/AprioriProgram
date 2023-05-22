@@ -355,7 +355,7 @@ void printMinimum(nodeTrie* root, int total ,int minimum, char* filename){
 	
 	while(i<=totalNode){
 		a=find_index(root, i);
-		if(a->support>=minimum){
+		
 			
 			fprintf(fp, "%s", itemName(a->info));
 			b=a->pr;
@@ -364,7 +364,7 @@ void printMinimum(nodeTrie* root, int total ,int minimum, char* filename){
 				b=b->pr;
 			}
 			fprintf(fp, "      support : %d\n",a->support);
-		}
+		
 		
 		i++;
 	}
@@ -374,7 +374,7 @@ void printMinimum(nodeTrie* root, int total ,int minimum, char* filename){
 	i=1;
 	while(i<=totalNode){
 		a=find_index(root, i);
-		if(a->support>=minimum){
+		
 			
 			printf("\n%s",itemName(a->info));
 			b=a->pr;
@@ -386,7 +386,7 @@ void printMinimum(nodeTrie* root, int total ,int minimum, char* filename){
 			}
 			printf("      support : %d",a->support);
 			printf("      level : %d",a->level);
-		}
+		
 		
 		i++;
 	}
@@ -443,4 +443,57 @@ void assosiationRules(nodeTrie* root, int confidence, int total, int minimum){
 
 	}
 
+}
+
+void removeNode(nodeTrie* root, int minimum, int total){
+	
+	nodeTrie* now;
+	nodeTrie* currRoot;
+	nodeTrie* prev;
+	nodeTrie* next;
+	int nodeTotal=pow(2,total)-1;
+	int i=1,j;
+	j=nodeTotal;
+	while(i<=nodeTotal){
+		
+		printf("\ntes %d",j);
+		now=find_index(root,j);
+			
+		if(now->support<minimum){
+			
+			prev=now->pr;
+			
+			if(prev->fs==now){
+				
+				next=now->nb;
+				prev->fs=next;
+				printf("\ntes free %s index %d",itemName(now->info), now->index);
+				free(now);
+				
+			}
+			
+			else{
+				
+				prev=prev->fs;
+				while(prev->nb!=now){
+					
+					prev=prev->nb;
+					
+				}
+				next=now->nb;
+				prev->nb=next;
+				printf("\ntes free %s index %d",itemName(now->info), now->index);
+				free(now);
+			}
+			
+	
+		}
+			
+		
+		j--;
+		i++;
+	}
+	
+	
+	
 }
