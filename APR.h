@@ -19,12 +19,6 @@ typedef struct nodeTrie {
 	struct nodeTrie* pr;
 } nodeTrie;
 
-int isItemInArray(char** items, int itemQty, const char* item);
-
-void extractItemsHelper(char* trscToken, const char* itemDelim, char*** items, int* itemQty);
-
-char** extractItems(const char* transactions, int* itemQty);
-
 int idItem(char* item);
 
 nodeTrie *make_node(int id,int idIndex, int lvl);
