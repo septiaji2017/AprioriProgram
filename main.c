@@ -4,61 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-int isItemInArray(char** items, int itemQty, const char* item) {
-    if (itemQty == 0) {
-        return 0;
-    }
-
-    if (strcmp(items[itemQty - 1], item) == 0) {
-        return 1; // Item found in the array
-    }
-
-    return isItemInArray(items, itemQty - 1, item);
-}
-
-void extractItemsHelper(char* trscToken, const char* itemDelim, char*** items, int* itemQty) {
-    if (trscToken == NULL) {
-        return;
-    }
-
-    // Tokenize the trsc to extract individual items
-    char* itemToken = strtok(trscToken, itemDelim);
-
-    while (itemToken != NULL) {
-        // Check if the item already exists in the items array
-        if (!isItemInArray(*items, *itemQty, itemToken)) {
-            // Reallocate memory for the items array to accommodate the new item
-            *items = (char**)realloc(*items, (*itemQty + 1) * sizeof(char*));
-//            memset((*items)[*itemQty],'\0',1);
-            (*items)[*itemQty] = strdup(itemToken);
-            (*itemQty)++;
-        }
-
-        itemToken = strtok(NULL, itemDelim); // Move to the next item
-    }
-    printf("\nExtractDone\n");
-
-    // Recursively process the next trsc
-    extractItemsHelper(strtok(NULL, "\0"), itemDelim, items, itemQty);
-}
-
-char** extractItems(const char* transactions, int* itemQty) {
-    const char* itemDelim = ", \n";
-//    char** items = (char**)malloc(sizeof(char*));
-	char** items = NULL;
-    *itemQty = 0;
-
-    // Tokenize the transactions string to extract individual transactions
-    char* trscCopy = strdup(transactions);
-    char* trscToken = strtok(trscCopy, "\0");
-
-    // Process transactions recursively
-    extractItemsHelper(trscToken, itemDelim, &items, itemQty);
-
-    free(trscCopy);
-    return items;
-}
-
 // int main() {
 //     const char* filename = "transactions.txt";
 //     int itemCount = 0;
